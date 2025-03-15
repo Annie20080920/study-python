@@ -1,3 +1,4 @@
-a= 100, "Python"
+a= 100
 print(a)
+a="Python"
 print(type(a))
