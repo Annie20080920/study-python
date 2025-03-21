@@ -6,6 +6,6 @@ def my_function():
 my_function()
 print(f"함수외부x: {x}")
 
-실행 결과:
+# 실행 결과:
 함수내부x: 10
 함수외부x: 5
