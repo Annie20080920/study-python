@@ -7,10 +7,10 @@ def update_var():
 update_var()
 print(var)
 
-실행 결과:
-UnboundLocal Error
-fixed:
-var = "Hello" 
+# 실행 결과:
+# UnboundLocal Error
+# fixed:
+# var = "Hello" 
 
 def update_var():
   global var  
@@ -20,6 +20,6 @@ def update_var():
 update_var()
 print(var)
 
-실행결과
-Hello World
-Hello World
+# 실행결과
+# Hello World
+# Hello World
