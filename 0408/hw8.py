@@ -1,7 +1,13 @@
-numbers = []
-for i in range(5):
-  num = int(input())
-  numbers.append(num)
+number = (input())
 
-max_num = max(numbers)
-print(max_num)
+number1 = map(int, number.split(" "))
+
+max = 0
+for i in number1:
+  if i > max:
+    max = i
+
+print(max)
+  
+# max_num = max(number1)
+# print(max_num)

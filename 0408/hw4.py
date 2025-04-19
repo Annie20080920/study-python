@@ -9,5 +9,8 @@ while True:
   if total >= 30:
     break
 
-print(f"입력한 숫자들: {numbers}")
+print("입력한 숫자들: ", end="")
+print(*numbers, sep=", ")
 print(f"총합: {total}")
+
+# ",".join(map(str, numbers))
