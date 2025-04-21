@@ -16,5 +16,28 @@ class Calculator:
       return "0으로 나눌 수 없습니다."
     return a / b
   
-  # def calculator(self):
+  def calculate(self):
+    part = self.expression.split()
+
+    if len(part) != 3:
+      return "입력 형식이 올바르지 않습니다. 예: 10 + 3"
     
+    num1, symbol, num2 = part
+    num1 = float(num1)
+    num2 = float(num2)
+
+    match symbol:
+      case "+":
+        return f"결과: {self.add(num1, num2)}"
+      case "-":
+        return f"결과: {self.subtract(num1, num2)}"
+      case "*":
+        return f"결과: {self.multiply(num1, num2)}"
+      case "/":
+        return f"결과: {self.divide(num1, num2)}"
+      case _:
+        return "지원하지 않는 연산자입니다."
+      
+expression = input("계산식을 입력하세요 (예: 10 + 3): ")
+calc = Calculator(expression)
+print(calc.calculate())
