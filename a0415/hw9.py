@@ -1,15 +1,18 @@
 class MultiplicationTable:
   def __init__(self, dan):
-    self.dan = dan
+    self.dan = float(dan)
 
   def round_number(self):
-    self.dan = round(float(input()))
+    self.dan = round(self.dan)
 
   def is_valid_number(self):
     if self.dan > 1 and self.dan < 30:
-      print(f"< {self.dan}단 >")
+      return True
+    else:
+      return False
       
   def print_table(self):
+    print(f"< {self.dan}단 >")
     for i in range(1,10):
       print(f"{self.dan} * {i} = {self.dan * i}")
   

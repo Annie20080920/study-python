@@ -1,20 +1,6 @@
 class Calculator:
   def __init__(self, expression):
     self.expression = expression
-
-  def add(self, a, b):
-    return a + b
-  
-  def subtract(self, a, b):
-    return a - b
-  
-  def multiply(self, a, b):
-    return a * b
-  
-  def divide(self, a, b):
-    if b == 0:
-      return "0으로 나눌 수 없습니다."
-    return a / b
   
   def calculate(self):
     part = self.expression.split()
@@ -37,7 +23,20 @@ class Calculator:
         return f"결과: {self.divide(num1, num2)}"
       case _:
         return "지원하지 않는 연산자입니다."
-      
+  
+  def add(self, a, b):
+    return a + b
+  
+  def subtract(self, a, b):
+    return a - b
+  
+  def multiply(self, a, b):
+    return a * b
+  
+  def divide(self, a, b):
+    if b == 0:
+      return "0으로 나눌 수 없습니다."
+    return a / b   
 expression = input("계산식을 입력하세요 (예: 10 + 3): ")
 calc = Calculator(expression)
 print(calc.calculate())

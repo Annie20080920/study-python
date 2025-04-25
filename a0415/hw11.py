@@ -1,5 +1,20 @@
 import random
 
+def play_game():
+  answer = generate_answer()
+  
+  while True:
+    guess = get_user_input()
+    strikes, balls = count_strikes_and_balls(answer, guess)
+    
+    if strikes == 3:
+      print("3 스트라이크 0 볼")
+      print("정답입니다!")
+      break
+
+    else:
+      print(f"{strikes} 스트라이크 {balls} 볼")
+
 def generate_answer():
   return random.sample(range(1,10), 3)
 
@@ -19,21 +34,6 @@ def count_strikes_and_balls(answer, guess):
     elif g in answer:
       balls += 1
   return strikes, balls
-
-def play_game():
-  answer = generate_answer()
-  
-  while True:
-    guess = get_user_input()
-    strikes, balls = count_strikes_and_balls(answer, guess)
-    
-    if strikes == 3:
-      print("3 스트라이크 0 볼")
-      print("정답입니다!")
-      break
-
-    else:
-      print(f"{strikes} 스트라이크 {balls} 볼")
 
 play_game()
 
