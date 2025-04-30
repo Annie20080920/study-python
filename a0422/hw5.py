@@ -1,10 +1,10 @@
 import collections
 
 text = input("문자열을 입력하세요:")
-text1 = text.lower()
-filtered_text = []
-for i in text1:
-  if i.isalpha():
-     filtered_text.append(i)
+lower_text = text.lower()
+
+# list comprehensive
+filtered_text = [word for word in lower_text if word.isalpha()]
  
-print(collections.Counter(filtered_text))
+for letter, num in collections.Counter(filtered_text).items():
+  print(letter, num, sep=":")

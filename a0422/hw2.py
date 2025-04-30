@@ -7,9 +7,12 @@ today = datetime.datetime.today()
 
 age = today.year - birth_date.year
 
-if today.month < birth_date.month:
+# if today.month <= birth_date.month:
+#   age -= 1
+# elif today.month == birth_date.month and today.day < birth_date.day:
+#   age -= 1
+if (today.month, today.day) < (birth_date.month, birth_date.day):
   age -= 1
-elif today.month == birth_date.month and today.day < birth_date.day:
-  age -= 1
-  
+
 print(f"당신의 만 나이는 {age}세입니다.")
+

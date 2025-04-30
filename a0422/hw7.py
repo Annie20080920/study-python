@@ -11,9 +11,9 @@ while True:
   books.append(book)
 
   add = input("책을 추가하시겠습니까? (y/n):")
-  if add != "y":
+  if add.lower() != "y":
     break
 
 print("도서 목록:")
 for book in books:
-  print(book)
+  print(book.output())
