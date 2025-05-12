@@ -10,5 +10,5 @@ for student in range(3):
   student = Student(name, score)
   students.append(student)
 
-average = sum(student.score for student in students) / 3
+average = sum(student.score for student in students) / len(students)
 print(f"평균 점수: {average:.1f}")

@@ -9,10 +9,7 @@ class Student:
     return average
   
   def is_passed(self):
-    if self.get_average() >= 60:
-      return True
-    else:
-      return False
+    return self.get_average() >= 60
     
   def __str__(self):
     average = self.get_average()
