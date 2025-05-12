@@ -1,159 +1,166 @@
-# function to create a cave
-def create_cave(name, description):
-  return {
-    'name': name,
-    'description': description,
-    'linked_caves': {},
-    'character': {},
-    'item': None
-  }
-# link caves together
-def link_caves(cave1, cave2, direction):
-  cave1['linked_caves'][direction] = cave2
-  cave2['linked_caves'][direction_opposites[direction]] = cave1
-    
+#------------------------
+class Cave:
+  def __init__(self, name, description):
+    self.name = name
+    self.description = description
+    self.linked_caves = {}
+    self.character = None
+    self.item = None
 
-def set_description(cave, description):
-  cave['description'] = description
-    
+  # def create_cave(name, description):
+  #   return {
+  #     'name': name,
+  #     'description': description,
+  #     'linked_caves': {},
+  #     'character': {},
+  #     'item': None
+  #   }
   
-def get_name(cave):
-  return cave['name']
+  def set_description(self, description):
+    self.description = description
+  
+  def get_description(self):
+    return self.description
 
-def get_description(cave):
-  return cave['description']
-
-def set_character(cave, character):
-  cave['character'] = character
-
-def get_character(cave):
-  return cave['character']
-
-def set_item(cave, item):
-  cave['item'] = item
-
-def get_item(cave):
-  return cave['item']
-
-# describe the cave and show connected paths
-def describe_cave(cave):
-  print(get_description(cave))
-  for direction in cave['linked_caves']:
-    linked_cave = cave['linked_caves'][direction]
-    print(f"The {get_name(linked_cave)} is {direction}")
-
-# move to a different cave
-def move_cave(current_cave, direction):
-  if direction in current_cave['linked_caves']:
-    return current_cave['linked_caves'][direction]
-  else:
-    print("You can't go that way")
-    return current_cave
-# create enemy
-def create_enemy(name, description, conversation, weakness):
-  return {
-    'name': name,
-    'description': description,
-    'conversation': conversation,
-    'weakness': weakness,
+  def link_caves(self, cave2, direction):
+    direction_opposites = {
+      'north': 'south',
+      'south': 'north',
+      'east': 'west',
+      'west': 'east'
     }
+    self.linked_caves[direction] = cave2
+    cave2.linked_caves[direction_opposites[direction]] = self
+    
+  def get_name(self):
+    return self.name
 
-# describe charcters
-def describe_enemy(enemy):
-  print(f"{enemy['name']} is here!")
-  print(enemy['description'])
+  def describe_cave(self):
+    print(self.description)
+    for direction, cave in self.linked_caves.items():
+      print(f"The {cave.name} is {direction}")
 
-# fight the enemy
-def fight_enemy(harry, item, current_cave):
-  if item == harry['weakness']:
-    print(f"You fend {harry['name']} off with the {item}")
-    return True
-  else:
-    print(f"{harry['name']} swallows you, little wimp")
-    return False
+  def move_cave(self, direction):
+    if direction in self.linked_caves:
+      return self.linked_caves[direction]
+    else:
+      print("You can't go that way")
+      return self
+  
+  def set_character(self, character):
+    self.charcter = character
 
-# create friend
-def create_friend(name, description, conversation):
-  return {
-    'name': name,
-    'description': description,
-    'conversation': conversation,
-    }
+  def get_character(self):
+    return self.charcter
 
-# describe charcters
-def describe_friend(friend):
-  print(f"{friend['name']} is here!")
-  print(friend['description'])
+  def set_item(self, item):
+    self.item = item
 
-def steal_from_enemy(enemy):
-  print(f"You steal from {enemy['name']}")
+  def get_item(self):
+    return self.item
+    
+# def create_enemy(name, description, conversation, weakness):
+#   return {
+#     'name': name,
+#     'description': description,
+#     'conversation': conversation,
+#     'weakness': weakness,
+#     }
 
-# describe items
-def describe_item(item):
-  print(f"The [{item['name']}] is here - {item['description']}")
+class Enemy:
+  def __init__(self, name, description, conversation, weakness):
+    self.name = name
+    self.description = description
+    self.conversation = conversation
+    self.weakness = weakness
+  
+  def describe_enemy(self):
+    print(f"{self.name} is here!")
+    print(self.description)
+  
+  def fight_enemy(self, item):
+    if item == self.weakness:
+      print(f"You fend {self.name} off with the {item}")
+      return True
+    else:
+      print(f"{self.name} swallows you, little wimp")
+      return False
 
-# descriptions of caves
-cavern_description = " A damp and dirty cave."
-grotto_description = " A small cave with ancient graffiti."
-dungeon_description = " A large cave with a rack"
+  def steal_from_enemy(self):
+    print(f"You steal from {self.name}")
+# def create_friend(name, description, conversation):
+#   return {
+#     'name': name,
+#     'description': description,
+#     'conversation': conversation,
+#     }
 
-# names of caves
-cavern_name = "Cavern"
-grotto_name = "Grotto"
-dungeon_name = "Dungeon"
+class Friend():
+  def __init__(self, name, description, conversation):
+    self.name = name
+    self.description = description
+    self.conversation = conversation
+  
+  def describe_friend(self):
+    print(f"{self.name} is here!")
+    print(self.name)
+#------------------------
+class Item:
+  def __init__(self, name, description):
+    self.name = name
+    self.description = description
+  def describe_item(self):
+    print(f"The [{self.name}] is here - {self.description}")
 
-# create cave instances
-cavern = create_cave(cavern_name, cavern_description)
-grotto = create_cave(grotto_name, grotto_description)
-dungeon = create_cave(dungeon_name, dungeon_description)
+#Create caves
+cavern = Cave("cavern"," A damp and dirty cave.")
+grotto = Cave("Grotto", " A small cave with ancient graffiti.")
+dungeon = Cave("Dungeon", " A large cave with a rack")
 
-# direction mapping for linking caves
-direction_opposites = {
-'north': 'south',
-'south': 'north',
-'east': 'west',
-'west': 'east'
-}
+# # names of caves
+# cavern_name = "Cavern"
+# grotto_name = "Grotto"
+# dungeon_name = "Dungeon"
+
+# # create cave instances
+# cavern = create_cave(cavern_name, cavern_description)
+# grotto = create_cave(grotto_name, grotto_description)
+# dungeon = create_cave(dungeon_name, dungeon_description)
 
 # link the caves
-link_caves(cavern, grotto, 'west')
-link_caves(cavern, dungeon, 'north')
-link_caves(dungeon, grotto, 'east')
+cavern.link_caves(grotto, 'west')
+cavern.link_caves(dungeon, 'north')
+dungeon.link_caves(grotto, 'east')
 
-set_description(cavern, cavern_description)
-set_description(grotto, grotto_description)
-set_description(dungeon, dungeon_description)
-# create characters
-harry = create_enemy(
-"Harry", 
-"A smelly Wumpus",
-"Hangry…Hanggrry",
-"vegemite"
+# set_description(cavern, cavern_description)
+# set_description(grotto, grotto_description)
+# set_description(dungeon, dungeon_description)
+# # create characters
+harry = Enemy(
+  name = "Harry", 
+  description = "A smelly Wumpus",
+  conversation = "Hangry…Hanggrry",
+  weakness = "vegemite"
 )
 
-set_character(dungeon, harry)
-
-josephine = create_friend(
-"Josephine", 
-"A friendly bat",
-"Gidday."
+josephine = Friend(
+  name = "Josephine", 
+  description = "A friendly bat",
+  conversation = "Gidday.",
 )
 
-set_character(grotto, josephine)
+# Place characters
+dungeon.set_character(harry)
+grotto.set_character(josephine)
 
-vegemite = {
-'name': "vegemite",
-'description': "A Wumpuses worst nightmare"
-}
+# Create items
+vegemite = Item("vegemite", "A Wumpuses worst nightmare")
+torch = Item("torch", "A light for the end of the tunnel")
 
-set_item(grotto, vegemite)
+grotto.set_item(vegemite)
+dungeon.set_item(torch)
 
-torch = {
-'name': "torch",
-'description': "A light for the end of the tunnel"
-}
 
-set_item(dungeon, torch)
 
 # game state
 bag = []
@@ -172,44 +179,45 @@ dead = False
 # game loop
 while not dead:
   print("\n")
-  describe_cave(current_cave)
+  current_cave.describe_cave()
 
-  character = get_character(current_cave)
+  character = current_cave.get_character()
   if character:
     if isinstance(character, dict) and 'conversation' in character:
-      describe_enemy(character)
+      Enemy.describe_enemy(character)
     elif isinstance(character, dict):
-      describe_friend(character)
+      Friend.describe_friend(character)
 
-  item = get_item(current_cave)
+  item = current_cave.get_item()
   if item:
-    describe_item(item)
+    Cave.describe_item(item)
 
   command = input(">")
 
   if command in ['north', 'south', 'east', 'west']:
-    current_cave = move_cave(current_cave, command)
+    current_cave = current_cave.move_cave(command)
 
   elif command == "talk":
-    character = get_character(current_cave)
+    character = current_cave.get_character()
     if character and isinstance(character, dict) and 'conversation' in character:
       print(f"[{character['name']} says]: {character['conversation']}")
 
   elif command == "fight":
-    character = get_character(current_cave)
+    character = current_cave.get_character()
     if character and isinstance(character, dict) and 'weakness' in character:
       print("What will you fight with?")
       
       fight_with = input()
       if fight_with in bag:
         # 
-        if fight_enemy(character, fight_with, current_cave):
+        if Enemy.fight_enemy(character, fight_with, current_cave):
           print("Bravo, hero you won the fight!")
-          set_character(current_cave, None)
+          current_cave.set_character(None)
           
           if len(bag) == 0:
             print("Congratulations, you have survived another adventure!")
-            dead = True
+            
+          dead = True
                 
         else:
           print("Scurry home, you lost the fight.")
@@ -221,17 +229,19 @@ while not dead:
         print("There is no one here to fight with")
 # 
   elif command == "pat":
-    character = get_character(current_cave)
+    character = current_cave.get_character()
     if character and isinstance(character, dict) and 'weakness' not in character:
       print(f"{character['name']} pats you back!")
     else:
       print("There is no one here to pat :(")
     
   elif command == "take":
-    item = get_item(current_cave)
+    item = current_cave.get_item()
 
     if item:
       print(f"You put the {item['name']} in your bag")
       
       bag.append(item['name'])
-      set_item(current_cave, None)
+      current_cave.set_item(None)
+
+
