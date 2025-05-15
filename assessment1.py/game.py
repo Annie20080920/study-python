@@ -33,9 +33,6 @@ class Cave:
   def set_character(self, character: 'Enemy | Friend'):
     self.__character = character
 
-  # def get_conversation(self):
-  #   return self.__conversation
-
   def get_item(self):
     return self.__item
 
@@ -52,7 +49,6 @@ class Cave:
     self.__linked_caves[direction] = cave
     cave.set_linked_caves(direction_opposites[direction], self)
     
-
   def describe_cave(self):
     print(self.__description)
     for direction, cave in self.__linked_caves.items():
@@ -71,6 +67,7 @@ class Enemy:
   __description: str
   __conversation: str
   __weakness: str
+  
   def __init__(self, name: str, description: str, conversation: str, weakness: str):
     self.__name = name
     self.__description = description
@@ -92,11 +89,18 @@ class Enemy:
   def steal_from_enemy(self):
     print(f"You steal from {self.__name}")
 
+  def get_conversation(self):
+    return self.__conversation
+  
+  def get_name(self):
+    return self.__name
+
 # ---------------------------------------------
 class Friend:
   __name: str
   __description: str
   __conversation: str
+  
   def __init__(self, name: str, description: str, conversation: str):
     self.__name = name
     self.__description = description
@@ -104,28 +108,38 @@ class Friend:
   
   def describe_friend(self):
     print(f"{self.__name} is here!")
-    print(self.__name)
+    print(self.__description)
+
+  def get_conversation(self):
+    return self.__conversation
+
+  def get_name(self):
+    return self.__name
 #---------------------------------------------------
 class Item:
   __name: str
   __description: str
+  
   def __init__(self, name: str, description: str):
     self.__name = name
     self.__description = description
+  
   def describe_item(self):
     print(f"The [{self.__name}] is here - {self.__description}")
 
+  def get_name(self):
+    return self.__name
 #Create caves
 cavern = Cave("cavern"," A damp and dirty cave.")
 grotto = Cave("Grotto", " A small cave with ancient graffiti.")
 dungeon = Cave("Dungeon", " A large cave with a rack")
 
-# link the caves
+# Link the caves
 cavern.link_caves(grotto, 'west')
 cavern.link_caves(dungeon, 'north')
 dungeon.link_caves(grotto, 'east')
 
-# # create characters
+# Create characters
 harry = Enemy("Harry", "A smelly Wumpus", "Hangry…Hanggrry", "vegemite")
 josephine = Friend("Josephine",  "A friendly bat", "Gidday.",)
 
@@ -136,7 +150,7 @@ grotto.set_character(josephine)
 # Create items
 vegemite = Item("vegemite", "A Wumpuses worst nightmare")
 torch = Item("torch", "A light for the end of the tunnel")
-
+# Place items
 grotto.set_item(vegemite)
 dungeon.set_item(torch)
 
@@ -171,7 +185,7 @@ while not dead:
   elif command == "talk":
     character = current_cave.get_character()
     if character and isinstance(character, Enemy | Friend):
-      print(f"[{character} says]: {character.conversation}")
+      print(f"[{character.get_name()} says]: {character.get_conversation()}")
 
   elif command == "fight":
     character = current_cave.get_character()
@@ -180,7 +194,7 @@ while not dead:
       
       fight_with = input()
       if fight_with in bag:
-        # 
+      
         if character.fight_enemy(fight_with):
           print("Bravo, hero you won the fight!")
           current_cave.set_character(None)
@@ -198,11 +212,11 @@ while not dead:
           print(f"You don't have a {fight_with}")
     else:
         print("There is no one here to fight with")
-# 
+
   elif command == "pat":
     character = current_cave.get_character()
     if character and isinstance(character, Friend):
-      print(f"{character.get_character()} pats you back!")
+      print(f"{character.get_name()} pats you back!")
     else:
       print("There is no one here to pat :(")
     
@@ -210,9 +224,9 @@ while not dead:
     item = current_cave.get_item()
 
     if item:
-      print(f"You put the {item.get_item()} in your bag")
+      print(f"You put the {item.get_name()} in your bag")
       
-      bag.append(item.name)
+      bag.append(item.get_name())
       current_cave.set_item(None)
 
 
