@@ -1,7 +1,14 @@
-from game import Item
-bread = Item("bread", "A best combo with vegemite")
-ball = Item("ball", "A big ball to attract the Wumpuses")
+class Item:
+  __name: str
+  __description: str
+  
+  def __init__(self, name: str, description: str):
+    self.__name = name
+    self.__description = description
+  
+  def describe_item(self):
+    print(f"The [{self.__name}] is here - {self.__description}")
 
-# place items
-burrow.set_item(bread)
-hollow.set_item(ball)
+  def get_name(self):
+    return self.__name
+

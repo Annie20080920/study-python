@@ -17,9 +17,6 @@ class Cave:
   
   def get_description(self):
     return self.__description
-  
-  # def set_description(self, description):
-  #   self.__description = description
 
   def get_linked_caves(self):
     return self.__linked_caves
@@ -129,30 +126,53 @@ class Item:
 
   def get_name(self):
     return self.__name
+
 #Create caves
 cavern = Cave("cavern"," A damp and dirty cave.")
 grotto = Cave("Grotto", " A small cave with ancient graffiti.")
 dungeon = Cave("Dungeon", " A large cave with a rack")
+# new caves
+burrow = Cave("burrow", "A deep cave with lots of bugs")
+hollow = Cave("hollow", "A small and deep cave under the ground")
 
 # Link the caves
 cavern.link_caves(grotto, 'west')
 cavern.link_caves(dungeon, 'north')
 dungeon.link_caves(grotto, 'east')
 
+# link the new caves
+burrow.link_caves(dungeon, 'north')
+burrow.link_caves(hollow, 'east')
+
 # Create characters
 harry = Enemy("Harry", "A smelly Wumpus", "Hangry…Hanggrry", "vegemite")
 josephine = Friend("Josephine",  "A friendly bat", "Gidday.",)
+
+# new characters
+edric = Enemy("Edric", "A huge Wunpus", "Bored..I'm so bored!", "ball")
+alban = Friend("Alban", "A friendly bat", "Hi, how are ya? I’m so hungry :( ")
 
 # Place characters
 dungeon.set_character(harry)
 grotto.set_character(josephine)
 
+# place character
+burrow.set_character(edric)
+hollow.set_character(alban)
 # Create items
 vegemite = Item("vegemite", "A Wumpuses worst nightmare")
 torch = Item("torch", "A light for the end of the tunnel")
+# new items
+bread = Item("bread", "A best combo with vegemite")
+ball = Item("ball", "A big ball to attract the Wumpuses")
+
 # Place items
 grotto.set_item(vegemite)
 dungeon.set_item(torch)
+
+# place items
+burrow.set_item(bread)
+hollow.set_item(ball)
 
 # --------------------------------------------------------
 
@@ -160,6 +180,7 @@ dungeon.set_item(torch)
 bag = []
 current_cave = cavern
 dead = False
+import random
 
 # game loop
 while not dead:
@@ -228,5 +249,48 @@ while not dead:
       
       bag.append(item.get_name())
       current_cave.set_item(None)
+  # mini game(new features)
+  elif command == "play":
+    computer = random.choice(["rock", "scissors", "paper"])
+    user = input("choose one of rock, scissors, paper:")
+
+    print(f"You: {user}, Enemy: {computer}")
+
+    if user == computer:
+      print("You've got the same one with him. Do you want to play again?")
+      command = input(">")
+      if command == "Yes":
+        dead = False
+      else:
+        dead = True
+    
+    elif user == "rock":
+      if computer == "scissors":
+        print("Congratulations! You've won the mini game!!")
+      elif computer == "paper":
+        print("Ooops, you lost the game.")
+        print("That's the end of the game.")
+
+      dead = True
+    elif user == "paper":
+      if computer == "scissors":
+        print("Ooops, you lost the game.")
+        print("That's the end of the game.")
+      elif computer == "rock":
+        print("Congratulations! You've won the mini game!!")
+
+      dead = True
+    elif user == "scissors":
+      if computer == "rock":
+        print("Ooops, you lost the game.")
+        print("That's the end of the game.")
+      elif computer == "paper":
+        print("Congratulations! You've won the mini game!!")
+
+      dead = True
+    else:
+        print("Select again, please")
+        dead = False
+
 
 

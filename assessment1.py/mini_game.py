@@ -1,6 +1,5 @@
-# put it into game loop after the command "What will you fight with?"
-# elif command == "mini game"
-
+# new features
+# elif command == play
 import random
 dead = False
 while not dead:
