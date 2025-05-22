@@ -1,10 +1,7 @@
+from character import Enemy, Friend
+from item import Item
+
 class Cave:
-  __name: str
-  __description: str
-  __linked_caves: dict
-  __character: 'Enemy | Friend'
-  __item: 'Item'
-  
   def __init__(self, name: str, description: str):
     self.__name = name
     self.__description = description

@@ -1,132 +1,9 @@
-class Cave:
-  __name: str
-  __description: str
-  __linked_caves: dict
-  __character: 'Enemy | Friend'
-  __item: 'Item'
-  
-  def __init__(self, name: str, description: str):
-    self.__name = name
-    self.__description = description
-    self.__linked_caves = {}
-    self.__character = None
-    self.__item = None
-  
-  def get_name(self):
-    return self.__name
-  
-  def get_description(self):
-    return self.__description
+import time
 
-  def get_linked_caves(self):
-    return self.__linked_caves
-  
-  def set_linked_caves(self, direction: str, cave: 'Cave'):
-    self.__linked_caves[direction] = cave
-
-  def get_character(self):
-    return self.__character
-  
-  def set_character(self, character: 'Enemy | Friend'):
-    self.__character = character
-
-  def get_item(self):
-    return self.__item
-
-  def set_item(self, item: 'Item'):
-    self.__item = item
-  
-  def link_caves(self, cave: 'Cave', direction: str):
-    direction_opposites = {
-      'north': 'south',
-      'south': 'north',
-      'east': 'west',
-      'west': 'east'
-    }
-    self.__linked_caves[direction] = cave
-    cave.set_linked_caves(direction_opposites[direction], self)
-    
-  def describe_cave(self):
-    print(self.__description)
-    for direction, cave in self.__linked_caves.items():
-      print(f"The {cave.get_name()} is {direction}")
-
-  def move_cave(self, direction: str):
-    if direction in self.__linked_caves:
-      return self.__linked_caves[direction]
-    else:
-      print("You can't go that way")
-      return self
-
-# ----------------------------------------------
-class Enemy:
-  __name: str
-  __description: str
-  __conversation: str
-  __weakness: str
-  
-  def __init__(self, name: str, description: str, conversation: str, weakness: str):
-    self.__name = name
-    self.__description = description
-    self.__conversation = conversation
-    self.__weakness = weakness
-  
-  def describe_enemy(self):
-    print(f"{self.__name} is here!")
-    print(self.__description)
-  
-  def fight_enemy(self, item):
-    if item == self.__weakness:
-      print(f"You fend {self.__name} off with the {item}")
-      return True
-    else:
-      print(f"{self.__name} swallows you, little wimp")
-      return False
-
-  def steal_from_enemy(self):
-    print(f"You steal from {self.__name}")
-
-  def get_conversation(self):
-    return self.__conversation
-  
-  def get_name(self):
-    return self.__name
-
-# ---------------------------------------------
-class Friend:
-  __name: str
-  __description: str
-  __conversation: str
-  
-  def __init__(self, name: str, description: str, conversation: str):
-    self.__name = name
-    self.__description = description
-    self.__conversation = conversation
-  
-  def describe_friend(self):
-    print(f"{self.__name} is here!")
-    print(self.__description)
-
-  def get_conversation(self):
-    return self.__conversation
-
-  def get_name(self):
-    return self.__name
-#---------------------------------------------------
-class Item:
-  __name: str
-  __description: str
-  
-  def __init__(self, name: str, description: str):
-    self.__name = name
-    self.__description = description
-  
-  def describe_item(self):
-    print(f"The [{self.__name}] is here - {self.__description}")
-
-  def get_name(self):
-    return self.__name
-
+from cave import Cave
+from character import Enemy, Friend
+from item import Item
+from mini_game import Mini_game
 #Create caves
 cavern = Cave("cavern"," A damp and dirty cave.")
 grotto = Cave("Grotto", " A small cave with ancient graffiti.")
@@ -183,6 +60,24 @@ dead = False
 import random
 
 # game loop
+print("\n" * 50)
+
+title_lines = [
+
+" __   __  __   __  __    _  _______    _______  __   __  _______    _     _  __   __  __   __  _______  __   __  _______ ",
+"|  | |  ||  | |  ||  |  | ||       |  |       ||  | |  ||       |  | | _ | ||  | |  ||  |_|  ||       ||  | |  ||       |",
+"|  |_|  ||  | |  ||   |_| ||_     _|  |_     _||  |_|  ||    ___|  | || || ||  | |  ||       ||    _  ||  | |  ||  _____|",
+"|       ||  |_|  ||       |  |   |      |   |  |       ||   |___   |       ||  |_|  ||       ||   |_| ||  |_|  || |_____ ",
+"|       ||       ||  _    |  |   |      |   |  |       ||    ___|  |       ||       ||       ||    ___||       ||_____  |",
+"|   _   ||       || | |   |  |   |      |   |  |   _   ||   |___   |   _   ||       || ||_|| ||   |    |       | _____| |",
+"|__| |__||_______||_|  |__|  |___|      |___|  |__| |__||_______|  |__| |__||_______||_|   |_||___|    |_______||_______|",
+
+]
+
+for line in title_lines:
+  print(line)
+  time.sleep(0.3)
+
 while not dead:
   print("\n")
   current_cave.describe_cave()
@@ -251,46 +146,17 @@ while not dead:
       current_cave.set_item(None)
   # mini game(new features)
   elif command == "play":
-    computer = random.choice(["rock", "scissors", "paper"])
-    user = input("choose one of rock, scissors, paper:")
+    play_mini_game = input("Do you want to play a minigame? (yes/no)")
 
-    print(f"You: {user}, Enemy: {computer}")
+    if play_mini_game.lower() == "yes":
+      mini_game = Mini_game()
+      is_win = mini_game.play()
 
-    if user == computer:
-      print("You've got the same one with him. Do you want to play again?")
-      command = input(">")
-      if command == "Yes":
-        dead = False
-      else:
+      if is_win:
         dead = True
-    
-    elif user == "rock":
-      if computer == "scissors":
-        print("Congratulations! You've won the mini game!!")
-      elif computer == "paper":
-        print("Ooops, you lost the game.")
-        print("That's the end of the game.")
-
-      dead = True
-    elif user == "paper":
-      if computer == "scissors":
-        print("Ooops, you lost the game.")
-        print("That's the end of the game.")
-      elif computer == "rock":
-        print("Congratulations! You've won the mini game!!")
-
-      dead = True
-    elif user == "scissors":
-      if computer == "rock":
-        print("Ooops, you lost the game.")
-        print("That's the end of the game.")
-      elif computer == "paper":
-        print("Congratulations! You've won the mini game!!")
-
-      dead = True
-    else:
-        print("Select again, please")
-        dead = False
+      else:
+        print("Again!")
+      
 
 
 

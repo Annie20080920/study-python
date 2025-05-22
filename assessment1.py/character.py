@@ -1,9 +1,4 @@
 class Enemy:
-  __name: str
-  __description: str
-  __conversation: str
-  __weakness: str
-  
   def __init__(self, name: str, description: str, conversation: str, weakness: str):
     self.__name = name
     self.__description = description
@@ -31,12 +26,7 @@ class Enemy:
   def get_name(self):
     return self.__name
 
-# ---------------------------------------------
 class Friend:
-  __name: str
-  __description: str
-  __conversation: str
-  
   def __init__(self, name: str, description: str, conversation: str):
     self.__name = name
     self.__description = description
