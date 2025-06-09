@@ -1,11 +1,12 @@
 class Fruit:
-  pass
+  def info(self):
+    pass
 class Apple(Fruit):
   def info(self):
-    print("나는 사과입니다.")
+    return "나는 사과입니다."
 class Banana(Fruit):
   def info(self):
-   print("나는 바나나입니다.") 
+   return "나는 바나나입니다."
 
 items = [Apple(), Banana(), "hello", 123]
 
