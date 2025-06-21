@@ -11,4 +11,4 @@ def print_product_quantities(quantities):
 def print_product_revenues(revenues):
     print("💰 제품별 총 수익 (내림차순):")
     for product, revenue in revenues.items():
-        print(f" - {product}: ${revenue:.1f}")
+        print(f" - {product}: ${revenue}")
